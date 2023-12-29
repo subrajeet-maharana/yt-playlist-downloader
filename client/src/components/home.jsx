@@ -14,7 +14,7 @@ export const Home = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ url: playlistUrl }),
+                body: JSON.stringify({ playlistUrl }),
             });
 
             const data = await response.json();

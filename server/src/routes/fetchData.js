@@ -5,8 +5,9 @@ import fs from 'fs';
 
 // // console.log(ytpl);
 export default async function fetchData(req, res) {
-
-const playlistUrl = 'https://www.youtube.com/playlist?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL';
+  const {playlistUrl}=req.body
+  console.log(playlistUrl);
+// const playlistUrl = 'https://www.youtube.com/playlist?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL';
 
 // Fetch kruchi playlist details
 
@@ -50,6 +51,6 @@ ytpl(playlistUrl, { limit: Infinity })
 
   })
   .catch(err => {
-    console.error('Error fetching playlist:', err);
-  });
+    console.error('Error fetching playlist:', err);
+  });
 };
