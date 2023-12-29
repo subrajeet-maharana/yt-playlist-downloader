@@ -28,6 +28,3 @@ yarn.lock
 # Ignore node_modules inside client and server directories
 client/node_modules/
 server/node_modules/
-
-# Ignore media
-*.mp4
