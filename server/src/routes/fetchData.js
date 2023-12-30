@@ -15,7 +15,9 @@ export default async function fetchData(req, res) {
       const videoURL = `https://www.youtube.com/watch?v=${videoID}`;
       const videoTitle = videoTitles[index]; 
       const options = {
-        quality: 'highest',
+        format:'mp4/bestvideo',
+        filter:'audioandvideo',
+        audioFormat: 'bestaudio',
       };
     
       ytdl(videoURL, options)
