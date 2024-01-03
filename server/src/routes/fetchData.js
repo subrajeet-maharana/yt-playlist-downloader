@@ -1,36 +1,22 @@
 import ytpl from 'ytpl';
-import ytdl from 'ytdl-core';
-import fs from 'fs';
 
 export default async function fetchData(req, res) {
-  const {playlistUrl}=req.body
-  console.log(playlistUrl);
+    try {
+        const { playlistUrl } = req.body;
 
-  ytpl(playlistUrl, { limit: Infinity })
-  .then(playlistInfo => {
+        if (!playlistUrl) {
+            return res.status(400).json({ error: 'Missing playlistUrl in the request body' });
+        }
 
-    const videoIDs = playlistInfo.items.map(item => item.id);
-    const videoTitles = playlistInfo.items.map(item => item.title);   
-    videoIDs.forEach((videoID, index) => {
-      const videoURL = `https://www.youtube.com/watch?v=${videoID}`;
-      const videoTitle = videoTitles[index]; 
-      const options = {
-        format:'mp4/bestvideo',
-        filter:'audioandvideo',
-        audioFormat: 'bestaudio',
-      };
-    
-      ytdl(videoURL, options)
-        .pipe(fs.createWriteStream(`${videoTitle}.mp4`))
-        .on('finish', () => {
-          console.log(`Video ${videoTitle} downloaded!`);
-        })
-        .on('error', (err) => {
-          console.error(`Error downloading video ${videoTitle}:`, err);
+        const playlistInfo = await ytpl(playlistUrl);
+
+        res.status(200).json({
+            playlistName: playlistInfo.title,
+            thumbnailLink: playlistInfo.bestThumbnail.url,
+            videoCount: playlistInfo.estimatedItemCount,
         });
-    });
-  })
-  .catch(err => {
-    console.error('Error fetching playlist:', err);
-  });
-};
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch playlist details' });
+    }
+}
