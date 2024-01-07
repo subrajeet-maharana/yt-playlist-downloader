@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/fetch', fetchData);
-app.post('/download', downloadData);
+app.get('/download', downloadData);
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

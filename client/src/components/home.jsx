@@ -28,16 +28,12 @@ export const Home = () => {
     const downloadData = async () => {
         setDownloadLoading(true);
         try {
-            const response = await fetch('http://localhost:3001/download', {
-                method: 'POST',
+            const response = await fetch(`http://localhost:3001/download?playlistUrl=${encodeURIComponent(playlistUrl)}`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ playlistUrl }),
             });
-
-            const data = await response.json();
-            setPlaylistData(data);
         } catch (error) {
             console.error(error);
         }
